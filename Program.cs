@@ -11,7 +11,18 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        string directory = args[0] ?? @".\XmlSharpFiles";
+        string directory;
+
+        try
+        {
+            directory = args[0];
+        }
+        catch
+        {
+            directory = @".\XmlSharpFiles";
+        }
+
+
 
         foreach (string filePath in Directory.EnumerateFiles(directory).Where(x => x[^3..^0] is ['x', 'm', 'l']))
         {
