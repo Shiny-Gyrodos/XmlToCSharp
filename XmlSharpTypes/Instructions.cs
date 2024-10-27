@@ -74,7 +74,18 @@ internal static class Instructions
 
     internal static void Enum(XElement element, StringBuilder builder, string indent)
     {
+        string? access = ((string?)element.Attribute("access"))?.Replace(",", string.Empty);
+        string? name = (string?)element.Attribute("name");
 
+        builder.AppendLine($"{indent}{access} {name}");
+        builder.AppendLine($"{indent}{{");
+
+        foreach (XElement enumMember in element.Elements("members").Where(x => x.Parent == element && x.Name != "attribute"))
+        {
+            builder.AppendLine($"{indent}\t{enumMember.Name.ToString()} = {(string?)enumMember.Attribute("value")},");
+        }
+
+        builder.AppendLine($"{indent}}}");
     }
 
 
